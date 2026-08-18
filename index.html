@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Harun Refrigeration Services Center - AC, Refrigerator, Washing Machine, Kitchen Hood & LED TV Installation and Service. Home Service Available.">
+    <meta name="theme-color" content="#0b63ce">
+    <title>Harun Refrigeration Services Center | হারুন রেফ্রিজারেশন সার্ভিসেস সেন্টার</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:Segoe UI,Tahoma,Arial,sans-serif;background:#f4f8fc;color:#1f2937;line-height:1.6;padding-bottom:50px}
+        a{text-decoration:none;color:inherit}
+        
+        /* Floating Editor Controls */
+        .editor-control-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: #111827;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            flex-wrap: wrap;
+        }
+        .btn-editor {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+        .btn-toggle { background: #2563eb; color: #fff; }
+        .btn-toggle.active { background: #16a34a; }
+        .btn-add-slide { background: #8b5cf6; color: #fff; display: none; }
+        .btn-change-img { background: #06b6d4; color: #fff; display: none; }
+        .btn-rem-slide { background: #f59e0b; color: #fff; display: none; }
+        .btn-save { background: #10b981; color: #fff; display: none; }
+        .btn-reset { background: #ef4444; color: #fff; display: none; }
+
+        .editable-active [contenteditable="true"]:hover {
+            outline: 2px dashed #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+            cursor: text;
+        }
+
+        .topbar{background:#083b78;color:#fff;font-size:14px;padding:8px 5%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+        .navbar{position:sticky;top:0;z-index:1000;background:#fff;box-shadow:0 2px 15px rgba(0,0,0,.08)}
+        .nav-inner{max-width:1100px;margin:auto;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+        .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#0758b7;font-size:20px}
+        .brand-icon{font-size:30px}
+        .nav-links{display:flex;gap:15px;align-items:center;font-weight:600;font-size:14px}
+        .nav-links a:hover{color:#0b63ce}
+        .nav-cta{background:#0b63ce;color:#fff!important;padding:9px 15px;border-radius:8px}
+
+        /* Hero Dynamic Slider */
+        .hero-slider-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            min-height: 480px;
+            background: #0758b7;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+            color: #fff;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide.active {
+            opacity: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .slide-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(7, 88, 183, 0.88), rgba(9, 169, 232, 0.85));
+            z-index: 1;
+        }
+        .hero-inner{max-width:900px;margin:auto; position: relative; z-index: 2;}
+        .hero h1{font-size:clamp(30px,5vw,52px);line-height:1.1;margin-bottom:14px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);}
+        .hero p{font-size:clamp(15px,2vw,19px);opacity:.95;margin-bottom:20px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);}
+        .hero-buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+        .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:8px;font-weight:800;border:2px solid transparent; transition: all 0.3s ease;}
+        .btn:hover{transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
+        .btn-white{background:#fff;color:#0758b7}
+        .btn-wa{background:#20c76b;color:#fff}
+
+        /* Slider Controls */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .slider-arrow:hover { background: rgba(0, 0, 0, 0.8); }
+        .prev-slide { left: 15px; }
+        .next-slide { right: 15px; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .dot.active { background: #fff; width: 28px; border-radius: 10px; }
+
+        /* Floating Emergency Call Widget */
+        .floating-widget {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .widget-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+        .widget-btn:hover { transform: scale(1.1); }
+        .wb-call { background: #0758b7; }
+        .wb-wa { background: #25d366; }
+
+        /* Quick Chat Bot Widget */
+        .chatbot-toggle-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 9999;
+            background: #0758b7;
+            color: #fff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .chatbot-toggle-btn:hover { transform: scale(1.1); }
+        
+        .chatbot-box {
+            position: fixed;
+            bottom: 145px;
+            right: 20px;
+            width: 320px;
+            max-width: 90vw;
+            height: 420px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e1ebf5;
+        }
+        .chatbot-box.active { display: flex; }
+        .chatbot-header {
+            background: #0758b7;
+            color: #fff;
+            padding: 12px 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chatbot-body {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f8fafc;
+        }
+        .chat-msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .msg-bot {
+            background: #e1ebf5;
+            color: #083b78;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .msg-user {
+            background: #0758b7;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .chat-opt-btn {
+            background: #fff;
+            border: 1px solid #0758b7;
+            color: #0758b7;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chat-opt-btn:hover { background: #0758b7; color: #fff; }
+
+        /* Search Bar Widget */
+        .search-container {
+            max-width: 600px;
+            margin: -25px auto 30px auto;
+            position: relative;
+            z-index: 100;
+            padding: 0 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: 2px solid #0b63ce;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Feature Highlights Section */
+        .highlights-section {
+            background: #eaf2fb;
+            padding: 25px 20px;
+            border-bottom: 1px solid #d0e1f5;
+        }
+        .highlights-grid {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+        .highlight-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-weight: 700;
+            color: #0758b7;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Stats Counter Section */
+        .stats-section {
+            background: #083b78;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .stats-grid {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        .stat-card h3 { font-size: 36px; color: #38bdf8; }
+        .stat-card p { font-size: 15px; opacity: 0.9; }
+
+        /* Tracker Widget */
+        .tracker-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+            border: 1px solid #e1ebf5;
+        }
+        .tracker-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Promo Banner */
+        .promo-banner{background:#ff4757;color:#fff;text-align:center;padding:12px 20px;font-weight:700;font-size:15px;box-shadow:inset 0 -2px 5px rgba(0,0,0,0.2)}
+
+        /* Trust Badges Bar */
+        .badges-bar{background:#eaf2fb;padding:18px;border-bottom:1px solid #d0e1f5}
+        .badges-grid{max-width:1100px;margin:auto;display:flex;justify-content:space-around;flex-wrap:wrap;gap:15px;text-align:center}
+        .badge-item{font-weight:700;color:#0758b7;font-size:14px;display:flex;align-items:center;gap:8px}
+
+        .section{max-width:1100px;margin:auto;padding:50px 20px}
+        .section-title{text-align:center;margin-bottom:30px}
+        .section-title h2{font-size:28px;color:#12395f;margin-bottom:6px}
+        .section-title p{color:#6b7280;font-size:15px}
+        
+        .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+        .service-card{background:#fff;padding:25px 18px;border-radius:14px;text-align:center;box-shadow:0 5px 20px rgba(20,60,100,.08);border:1px solid #e8eef5; transition: all 0.3s ease;}
+        .service-card:hover{transform: translateY(-4px); border-color: #0b63ce;}
+        .service-card .icon{font-size:40px;margin-bottom:8px}
+        .service-card h3{color:#0758b7;margin-bottom:5px;font-size:18px}
+        .service-card p{font-size:14px;color:#4b5563}
+
+        /* How It Works Section */
+        .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:center}
+        .step-card{background:#fff;padding:22px;border-radius:12px;border:1px solid #e1ebf5;box-shadow:0 4px 10px rgba(0,0,0,0.03);position:relative}
+        .step-number{width:36px;height:36px;background:#0758b7;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;margin:0 auto 12px auto}
+
+        /* Pricing Card Styling */
+        .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+        .price-card{background:#fff;border-radius:12px;padding:22px;border:1px solid #e1ebf5;box-shadow:0 4px 15px rgba(0,0,0,0.05);text-align:center}
+        .price-card h3{color:#0758b7;margin-bottom:10px;font-size:18px}
+        .price-amount{font-size:24px;font-weight:800;color:#20c76b;margin-bottom:12px}
+        .price-features{list-style:none;font-size:14px;color:#4b5563;margin-bottom:15px;text-align:left}
+        .price-features li{padding:4px 0;border-bottom:1px dashed #eee}
+
+        /* Before/After Gallery */
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+        .gallery-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid #e1ebf5}
+        .gallery-imgs{display:flex;height:180px}
+        .gallery-img{flex:1;position:relative;background-size:cover;background-position:center}
+        .gallery-label{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 8px;font-size:11px;font-weight:700;border-radius:4px}
+        .gallery-desc{padding:15px;text-align:center}
+        .gallery-desc h4{color:#0758b7;margin-bottom:4px}
+        .gallery-desc p{font-size:13px;color:#6b7280}
+
+        /* Brands Section */
+        .brands-flex{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px}
+        .brand-pill{background:#fff;padding:8px 18px;border-radius:20px;border:1px solid #d5dde8;font-weight:700;color:#374151;font-size:14px}
+
+        .info-strip{background:#0a376c;color:#fff}
+        .info-grid{max-width:1100px;margin:auto;padding:25px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;text-align:center}
+        .info-grid strong{display:block;font-size:17px}
+        .info-grid span{font-size:14px;opacity:.9}
+
+        /* Form Styling */
+        .form-wrap{max-width:900px;margin:auto;background:#fff;padding:28px;border-radius:16px;box-shadow:0 8px 30px rgba(20,60,100,.1)}
+        .form-section-title{font-size:18px;font-weight:800;color:#12395f;margin:22px 0 15px;padding-bottom:7px;border-bottom:2px solid #e7eef6}
+        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+        .form-group{display:flex;flex-direction:column}
+        .form-group.full-width{grid-column:1/-1}
+        label{font-size:14px;font-weight:700;margin-bottom:6px;color:#374151}
+        label span{color:#e11d48}
+        input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d5dde8;border-radius:8px;font-size:14px;background:#fbfdff}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:#0b63ce;box-shadow:0 0 0 3px rgba(11,99,206,.1);background:#fff}
+        textarea{resize:vertical;min-height:80px}
+        .submit-btn{background:#20c76b;color:#fff;padding:14px 22px;font-size:16px;font-weight:800;border:0;border-radius:9px;cursor:pointer;width:100%;margin-top:20px; transition: background 0.3s ease;}
+        .submit-btn:hover{background:#16aa58}
+
+        /* Testimonials Grid */
+        .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+        .testimonial-card{background:#fff;padding:20px;border-radius:12px;border:1px solid #e1ebf5;box-shadow:0 4px 10px rgba(0,0,0,0.03)}
+        .testimonial-user{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+        .user-avatar{width:42px;height:42px;background:#0758b7;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
+        .user-info h4{font-size:15px;color:#1f2937}
+        .user-info span{font-size:12px;color:#6b7280}
+        .star-rating{color:#f5b301;font-size:14px;margin-bottom:8px}
+
+        /* FAQ Section */
+        .faq-item{background:#fff;border-radius:8px;margin-bottom:10px;padding:15px 20px;border:1px solid #e1ebf5}
+        .faq-item h3{font-size:16px;color:#0758b7;margin-bottom:5px}
+        .faq-item p{font-size:14px;color:#4b5563}
+
+        .contact{background:#fff}
+        .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+        .contact-card{padding:22px;border-radius:12px;background:#f5f9fe;border:1px solid #e1ebf5;text-align:center}
+        .contact-card .icon{font-size:30px}
+        .contact-card strong{display:block;color:#0758b7;margin:5px 0}
+
+        .map-container{margin-top:25px;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);height:280px}
+
+        /* Mobile Sticky Action Bar */
+        .mobile-sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:2000;padding:8px 12px}
+        .sticky-btn-group{display:flex;gap:10px}
+        .sticky-btn{flex:1;padding:10px;text-align:center;border-radius:6px;font-weight:700;font-size:14px;color:#fff}
+        .sticky-call{background:#0758b7}
+        .sticky-wa{background:#20c76b}
+
+        footer{background:#092f5e;color:#fff;text-align:center;padding:30px 20px 70px 20px}
+        footer p{opacity:.9;font-size:14px}
+
+        @media(max-width:700px){
+            .topbar{justify-content:center;text-align:center}
+            .nav-links a:not(.nav-cta){display:none}
+            .nav-inner{padding:10px 15px}
+            .hero-slider-container{min-height:420px;}
+            .slide{padding:50px 15px;}
+            .section{padding:38px 15px}
+            .form-wrap{padding:20px 15px}
+            .mobile-sticky-bar{display:block}
+            .editor-control-bar{bottom:65px;right:10px;padding:8px; justify-content: center;}
+            .slider-arrow { padding: 8px 12px; font-size: 18px; }
+            .floating-widget { left: 10px; bottom: 70px; }
+            .chatbot-toggle-btn { bottom: 70px; right: 10px; }
+            .chatbot-box { bottom: 130px; right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Editor Floating Controls -->
+    <div class="editor-control-bar">
+        <span>✏️ Edit:</span>
+        <button class="btn-editor btn-toggle" id="editToggle" onclick="toggleEditMode()">OFF</button>
+        <button class="btn-editor btn-add-slide" id="addSlideBtn" onclick="addNewSlide()">➕ Add Slide</button>
+        <button class="btn-editor btn-change-img" id="changeImgBtn" onclick="changeSlideBg()">🖼️ Change Image</button>
+        <button class="btn-editor btn-rem-slide" id="remSlideBtn" onclick="removeCurrentSlide()">❌ Delete Slide</button>
+        <button class="btn-editor btn-save" id="saveBtn" onclick="saveChanges()">💾 Save</button>
+        <button class="btn-editor btn-reset" id="resetBtn" onclick="resetToDefault()">🔄 Reset</button>
+    </div>
+
+    <!-- Floating Action Widgets -->
+    <div class="floating-widget">
+        <a href="tel:01722488383" class="widget-btn wb-call" title="Call Now">📞</a>
+        <a href="https://wa.me/8801722488383" target="_blank" class="widget-btn wb-wa" title="WhatsApp Chat">💬</a>
+    </div>
+
+    <!-- Live Quick Chatbot Button & Window -->
+    <button class="chatbot-toggle-btn" onclick="toggleChatbot()">🤖</button>
+    <div class="chatbot-box" id="chatbotBox">
+        <div class="chatbot-header">
+            <span>🤖 Harun Service Assistant</span>
+            <span style="cursor:pointer;" onclick="toggleChatbot()">✖</span>
+        </div>
+        <div class="chatbot-body" id="chatBody">
+            <div class="chat-msg msg-bot">
+                আসসালামু আলাইকুম! 👋 হারুন রেফ্রিজারেশনে আপনাকে স্বাগতম। আমি কীভাবে সাহায্য করতে পারি?
+            </div>
+            <div class="chat-options">
+                <button class="chat-opt-btn" onclick="botReply('AC Fitting', 'এসি ফিটিং, আনইনস্টলেশন ও সার্ভিসিংয়ের জন্য আমাদের দক্ষ টেকনিশিয়ান রয়েছে।')">❄️ AC Fitting</button>
+                <button class="chat-opt-btn" onclick="botReply('Fitting Services', 'আমরা এসি, ওয়াশিং মেশিন, কিচেন হুড, টিভি ও ফ্রিজ ফিটিং সার্ভিস দিয়ে থাকি।')">🔧 Fitting Services</button>
+                <button class="chat-opt-btn" onclick="botReply('Location', 'আমাদের সার্ভিস সেন্টার: জলাসী মারকাজ মসজিদের সামনে, পঞ্চগড় সদর।')">📍 Location</button>
+                <button class="chat-opt-btn" onclick="botReply('Call', 'জরুরি ফিটিং ও সার্ভিসের জন্য কল করুন: 01722488383 / 09638565753')">📞 Call Us</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="topbar">
+        <div class="editable" id="tb-text">🛠️ Home & Office Service | বাসায় ও অফিসে ফিটিং ও সার্ভিস</div>
+        <div class="editable" id="tb-phone">📞 01722488383 &nbsp; | &nbsp; ☎️ 09638565753</div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#home" class="brand"><span class="brand-icon">❄️</span> <span class="editable" id="brand-name">HARUN REFRIGERATION</span></a>
+            <div class="nav-links">
+                <a class="editable" id="nav-s" href="#services">Services (সার্ভিস)</a>
+                <a class="editable" id="nav-p" href="#how-it-works">Working Process (পদ্ধতি)</a>
+                <a class="editable" id="nav-pr" href="#pricing">Pricing (মূল্য)</a>
+                <a class="editable" id="nav-g" href="#gallery">Gallery (কাজ)</a>
+                <a class="editable" id="nav-r" href="#reviews">Reviews (মতামত)</a>
+                <a class="editable" id="nav-b" href="#request">Booking (বুকিং)</a>
+                <a class="editable" id="nav-c" href="#contact">Contact (যোগাযোগ)</a>
+                <a class="nav-cta editable" id="nav-call" href="tel:01722488383">Call Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner editable" id="promo-msg">
+        🔥 সব ধরনের ফিটিং ও ইনস্টলেশন সার্ভিস এক জায়গায়! বুকিং করতে এখনই কল করুন বা অনলাইনে ফর্ম পুরন করুন!
+    </div>
+
+    <!-- Dynamic Hero Slider -->
+    <header class="hero-slider-container" id="home">
+        <div id="slides-wrapper">
+            <!-- Slide 1 -->
+            <div class="slide active hero" style="background-image: url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1350&q=80');">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <h1 class="editable" id="hero-title-1">Harun Refrigeration Services Center</h1>
+                    <p class="editable" id="hero-sub-1">🔧 ফিটিং ও ইনস্টলেশন সার্ভিস | বাসা, অফিস বা প্রতিষ্ঠানে প্রয়োজনীয় সব ফিটিং ও অ্যাপ্লায়েন্স সার্ভিস এক জায়গায়।</p>
+                    <div class="hero-buttons">
+                        <a class="btn btn-white editable" id="hero-b1-1" href="#request">📋 Request Service / বুকিং করুন</a>
+                        <a class="btn btn-wa editable" id="hero-b2-1" href="https://wa.me/8801722488383" target="_blank">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide hero" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1350&q=80');">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <h1 class="editable" id="hero-title-2">Professional Fitting & Master Servicing</h1>
+                    <p class="editable" id="hero-sub-2">AC, ওয়াশিং মেশিন, কিচেন হুড, ফ্রিজ ও LED TV ইনস্টলেশন—প্রয়োজন অনুযায়ী বাসায় গিয়ে নির্ভরযোগ্য সেবা।</p>
+                    <div class="hero-buttons">
+                        <a class="btn btn-white editable" id="hero-b1-2" href="#request">📋 Book Fitting / ফিটিং বুক করুন</a>
+                        <a class="btn btn-wa editable" id="hero-b2-2" href="https://wa.me/8801722488383" target="_blank">💬 Call / WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-arrow prev-slide" onclick="changeSlide(-1)">❮</button>
+        <button class="slider-arrow next-slide" onclick="changeSlide(1)">❯</button>
+
+        <div class="slider-dots" id="dots-wrapper"></div>
+    </header>
+
+    <!-- Search Bar Feature -->
+    <div class="search-container">
+        <input type="text" class="search-input" id="serviceSearch" onkeyup="filterServices()" placeholder="🔍 আপনার কি ফিটিং বা সার্ভিস প্রয়োজন? (যেমন: AC, কিচেন হুড, LED TV...)">
+    </div>
+
+    <!-- Quality Assurance Highlights -->
+    <div class="highlights-section">
+        <div class="highlights-grid">
+            <div class="highlight-item editable" id="hl-1">✅ দক্ষ টেকনিশিয়ান</div>
+            <div class="highlight-item editable" id="hl-2">✅ যত্নসহকারে কাজ</div>
+            <div class="highlight-item editable" id="hl-3">✅ প্রয়োজন অনুযায়ী বাসায় গিয়ে সার্ভিস</div>
+            <div class="highlight-item editable" id="hl-4">✅ নির্ভরযোগ্য ও পেশাদার সেবা</div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="badges-bar">
+        <div class="badges-grid">
+            <div class="badge-item editable" id="badge-1">🛡️ 30 Days Warranty (৩০ দিনের ওয়ারেন্টি)</div>
+            <div class="badge-item editable" id="badge-2">⚡ Fast Response (১ ঘণ্টার দ্রুত রেসপন্স)</div>
+            <div class="badge-item editable" id="badge-3">🔩 Original Parts (১০০% অরিজিনাল পার্টস)</div>
+            <div class="badge-item editable" id="badge-4">👨‍🔧 Expert Team (দক্ষ টেকনিশিয়ান টিম)</div>
+        </div>
+    </div>
+
+    <!-- Live Statistics Counter -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>1500+</h3>
+                <p>সফল সার্ভিস ও ইনস্টলেশন</p>
+            </div>
+            <div class="stat-card">
+                <h3>98%</h3>
+                <p>সন্তুষ্ট গ্রাহক</p>
+            </div>
+            <div class="stat-card">
+                <h3>10+</h3>
+                <p>অভিজ্ঞ টেকনিশিয়ান</p>
+            </div>
+            <div class="stat-card">
+                <h3>30 Days</h3>
+                <p>সার্ভিস ওয়ারেন্টি</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="section-title">
+            <h2 class="editable" id="sec-srv-title">Our Fitting & Installation Services (আমাদের ফিটিং ও ইনস্টলেশন সার্ভিস)</h2>
+            <p class="editable" id="sec-srv-sub">সব ধরনের ফিটিং ও হোম অ্যাপ্লায়েন্স সার্ভিস এক জায়গায়</p>
+        </div>
+        <div class="service-grid" id="serviceGrid">
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-1">❄️</div>
+                <h3 class="editable" id="srv-t-1">AC Fitting & Installation</h3>
+                <p class="editable" id="srv-d-1">নতুন ও পুরাতন এসি ফিটিং, আনইনস্টলেশন, ওয়াশ ও মাস্টার সার্ভিসিং</p>
+            </div>
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-2">🧺</div>
+                <h3 class="editable" id="srv-t-2">Washing Machine Fitting</h3>
+                <p class="editable" id="srv-d-2">ওয়াশিং মেশিন ওয়াটার লাইন ইনলেট-আউটলেট সেটআপ ও ফিটিং সার্ভিস</p>
+            </div>
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-3">🍳</div>
+                <h3 class="editable" id="srv-t-3">Kitchen Hood Fitting</h3>
+                <p class="editable" id="srv-d-3">রান্নাঘরের কিচেন হুড নিখুঁতভাবে ওয়ালে মাউন্ট ও পাইপ ফিটিং</p>
+            </div>
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-4">❄️</div>
+                <h3 class="editable" id="srv-t-4">Refrigerator Installation & Service</h3>
+                <p class="editable" id="srv-d-4">ফ্রিজ ইনস্টলেশন, কুলিং প্রবলেম সলভ, গ্যাস লিক ও সার্ভিসিং</p>
+            </div>
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-5">📺</div>
+                <h3 class="editable" id="srv-t-5">LED TV Installation</h3>
+                <p class="editable" id="srv-d-5">ওয়াল মাউন্ট ব্র্যাকেট সহ নিরাপদে LED TV ইনস্টলেশন ও সেটআপ</p>
+            </div>
+            <div class="service-card">
+                <div class="icon editable" id="srv-ic-6">🔧</div>
+                <h3 class="editable" id="srv-t-6">অন্যান্য ইলেকট্রনিক ও হোম অ্যাপ্লায়েন্স</h3>
+                <p class="editable" id="srv-d-6">ওভেন, গিজার ও অন্যান্য হোম অ্যাপ্লায়েন্স সার্ভিস এবং মেরামতের কাজ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Tracker Widget -->
+    <section class="section" style="padding-top:0;">
+        <div class="tracker-box">
+            <h3 class="editable" id="trk-title">🔍 Track Your Service Status (সার্ভিস স্ট্যাটাস ট্র্যাকিং)</h3>
+            <p style="font-size:13px;color:#666;" class="editable" id="trk-sub">আপনার মোবাইল নম্বর দিয়ে বুকিংয়ের বর্তমান অবস্থা জানুন</p>
+            <div class="tracker-input-group">
+                <input type="tel" id="trackPhone" placeholder="মোবাইল নম্বর লিখুন...">
+                <button onclick="checkStatus()" class="btn btn-white" style="background:#0758b7;color:#fff;">Check Status</button>
+            </div>
+            <div id="trackResult" style="margin-top:15px;font-weight:bold;color:#0758b7;"></div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-it-works">
+        <div class="section-title">
+            <h2 class="editable" id="sec-hw-title">⚙️ How We Work (সেবা নেওয়ার ৪টি সহজ ধাপ)</h2>
+            <p class="editable" id="sec-hw-sub">Easy 4-Step Process To Get Your Home Service</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h4 class="editable" id="st-1-t">বুকিং করুন</h4>
+                <p class="editable" id="st-1-d">অনলাইন ফর্ম বা ফোনে আপনার তথ্য প্রদান করুন।</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h4 class="editable" id="st-2-t">কল কনফার্মেশন</h4>
+                <p class="editable" id="st-2-d">আমাদের প্রতিনিধি কল করে সময় ও ঠিকানা কনফার্ম করবে।</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h4 class="editable" id="st-3-t">হোম সার্ভিস</h4>
+                <p class="editable" id="st-3-d">দক্ষ টেকনিশিয়ান আপনার বাসায় গিয়ে সার্ভিস প্রদান করবে।</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h4 class="editable" id="st-4-t">পেমেন্ট ও ওয়ারেন্টি</h4>
+                <p class="editable" id="st-4-d">কাজ শেষে পরীক্ষা করে পেমেন্ট দিন ও ওয়ারেন্টি গ্রহণ করুন।</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estimated Pricing Section -->
+    <section class="section" id="pricing" style="background:#f8fafc;border-radius:16px;">
+        <div class="section-title">
+            <h2 class="editable" id="prc-t">💰 Estimated Service Charge (আনুমানিক ফিটিং ও সার্ভিস চার্জ)</h2>
+            <p class="editable" id="prc-s">Basic Service Rates (Excluding Spare Parts / Accessories)</p>
+        </div>
+        <div class="price-grid">
+            <div class="price-card">
+                <h3 class="editable" id="p1-t">AC Fitting & Wash</h3>
+                <div class="price-amount editable" id="p1-a">৳ 500 - ৳ 1500</div>
+                <ul class="price-features">
+                    <li class="editable" id="p1-f1">✓ Professional AC Fitting</li>
+                    <li class="editable" id="p1-f2">✓ Jet Pressure Wash</li>
+                    <li class="editable" id="p1-f3">✓ Indoor & Outdoor Alignment</li>
+                </ul>
+                <a href="#request" class="btn btn-white editable" id="p1-b" style="border:1px solid #0758b7;padding:8px 15px;width:100%;">Book Now / বুক করুন</a>
+            </div>
+            <div class="price-card">
+                <h3 class="editable" id="p2-t">Kitchen Hood & LED TV</h3>
+                <div class="price-amount editable" id="p2-a">৳ 400 - ৳ 1200</div>
+                <ul class="price-features">
+                    <li class="editable" id="p2-f1">✓ Secure Wall Mounting</li>
+                    <li class="editable" id="p2-f2">✓ Pipe & Wiring Connection</li>
+                    <li class="editable" id="p2-f3">✓ Leveling & Final Testing</li>
+                </ul>
+                <a href="#request" class="btn btn-white editable" id="p2-b" style="border:1px solid #0758b7;padding:8px 15px;width:100%;">Book Now / বুক করুন</a>
+            </div>
+            <div class="price-card">
+                <h3 class="editable" id="p3-t">Washing Machine & Fridge</h3>
+                <div class="price-amount editable" id="p3-a">৳ 300 - ৳ 1500</div>
+                <ul class="price-features">
+                    <li class="editable" id="p3-f1">✓ Complete Installation Setup</li>
+                    <li class="editable" id="p3-f2">✓ Gas Refill & Leakage Fix</li>
+                    <li class="editable" id="p3-f3">✓ Motor & System Checkup</li>
+                </ul>
+                <a href="#request" class="btn btn-white editable" id="p3-b" style="border:1px solid #0758b7;padding:8px 15px;width:100%;">Book Now / বুক করুন</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before & After Work Gallery -->
+    <section class="section" id="gallery">
+        <div class="section-title">
+            <h2 class="editable" id="gal-t">📸 Work Proof (আমাদের ফিটিং ও সার্ভিসের চিত্র)</h2>
+            <p class="editable" id="gal-s">Before & After Service Sample</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <div class="gallery-imgs">
+                    <div class="gallery-img" style="background-image:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=400&q=80');">
+                        <span class="gallery-label editable" id="gl-1">Before (আগে)</span>
+                    </div>
+                    <div class="gallery-img" style="background-image:url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=400&q=80');">
+                        <span class="gallery-label editable" id="gl-2">After (পরে)</span>
+                    </div>
+                </div>
+                <div class="gallery-desc">
+                    <h4 class="editable" id="g1-title">AC Fitting & Master Servicing</h4>
+                    <p class="editable" id="g1-desc">সঠিক নিয়মে ইনডোর-আউটডোর ফিটিং ও ওয়াশ সার্ভিস সম্পন্ন।</p>
+                </div>
+            </div>
+            <div class="gallery-card">
+                <div class="gallery-imgs">
+                    <div class="gallery-img" style="background-image:url('https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=400&q=80');">
+                        <span class="gallery-label editable" id="gl-3">Before (আগে)</span>
+                    </div>
+                    <div class="gallery-img" style="background-image:url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80');">
+                        <span class="gallery-label editable" id="gl-4">After (পরে)</span>
+                    </div>
+                </div>
+                <div class="gallery-desc">
+                    <h4 class="editable" id="g2-title">Refrigerator & Kitchen Hood Setup</h4>
+                    <p class="editable" id="g2-desc">কিচেন হুড ফিটিং ও ফ্রিজ সার্ভিস সম্পূর্ণ নিখুঁতভাবে করা হয়েছে।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section class="section" id="reviews" style="background:#f8fafc;border-radius:16px;">
+        <div class="section-title">
+            <h2 class="editable" id="rev-t">⭐ Happy Clients (গ্রাহকদের প্রতিক্রিয়া)</h2>
+            <p class="editable" id="rev-s">What our satisfied customers say about us</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-user">
+                    <div class="user-avatar">AH</div>
+                    <div class="user-info">
+                        <h4 class="editable" id="u1-n">Arif Hossain</h4>
+                        <span class="editable" id="u1-l">Panchagarh Sadar</span>
+                    </div>
+                </div>
+                <div class="star-rating">★★★★★</div>
+                <p class="editable" id="u1-c">"বাসায় এসে খুব সুন্দরভাবে নতুন এসি ফিটিং এবং ওয়াল মাউন্ট করে দিয়েছেন। দক্ষ টেকনিশিয়ান।"</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-user">
+                    <div class="user-avatar">MR</div>
+                    <div class="user-info">
+                        <h4 class="editable" id="u2-n">Mahbubur Rahman</h4>
+                        <span class="editable" id="u2-l">Boda, Panchagarh</span>
+                    </div>
+                </div>
+                <div class="star-rating">★★★★★</div>
+                <p class="editable" id="u2-c">"রান্নাঘরের কিচেন হুড ও LED TV খুব যত্নসহকারে ইনস্টল করে দিয়েছে। আমি সেবায় অনেক সন্তুষ্ট।"</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-user">
+                    <div class="user-avatar">SK</div>
+                    <div class="user-info">
+                        <h4 class="editable" id="u3-n">Sumi Akter</h4>
+                        <span class="editable" id="u3-l">Tetulia</span>
+                    </div>
+                </div>
+                <div class="star-rating">★★★★★</div>
+                <p class="editable" id="u3-c">"ওয়াশিং মেশিনের ওয়াটার পাইপ লাইন ও ফিটিং সার্ভিস খুব দ্রুত সময়ে করে দিয়েছেন। ধন্যবাদ!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="section" style="padding:20px 20px;">
+        <div class="section-title" style="margin-bottom:15px;">
+            <h2 class="editable" id="brd-t" style="font-size:22px;">Brands We Service & Install (যেসব ব্র্যান্ডের কাজ করি)</h2>
+        </div>
+        <div class="brands-flex">
+            <span class="brand-pill editable" id="b-1">WALTON (ওয়ালটন)</span>
+            <span class="brand-pill editable" id="b-2">SAMSUNG (স্যামসাং)</span>
+            <span class="brand-pill editable" id="b-3">LG (এলজি)</span>
+            <span class="brand-pill editable" id="b-4">GREE (গ্রি)</span>
+            <span class="brand-pill editable" id="b-5">SINGER (সিঙ্গার)</span>
+            <span class="brand-pill editable" id="b-6">HAIER (হায়ার)</span>
+            <span class="brand-pill editable" id="b-7">VISION (ভিশন)</span>
+            <span class="brand-pill editable" id="b-8">MINISTER (মিনিস্টার)</span>
+            <span class="brand-pill editable" id="b-9">HITACHI (হিটাচি)</span>
+            <span class="brand-pill editable" id="b-10">PANASONIC (প্যানাসনিক)</span>
+        </div>
+    </section>
+
+    <section class="info-strip">
+        <div class="info-grid">
+            <div><strong class="editable" id="is-1">🏠 Home & Office Service</strong><span class="editable" id="is-1-s">বাসায় ও অফিসে গিয়ে ফিটিং সেবা</span></div>
+            <div><strong class="editable" id="is-2">👨‍🔧 Expert Technicians</strong><span class="editable" id="is-2-s">দক্ষ ও অভিজ্ঞ টেকনিশিয়ান</span></div>
+            <div><strong class="editable" id="is-3">🛠️ Multiple Services</strong><span class="editable" id="is-3-s">সব ফিটিং সার্ভিস এক জায়গায়</span></div>
+            <div><strong class="editable" id="is-4">❤️ Customer Satisfaction</strong><span class="editable" id="is-4-s">নির্ভরযোগ্য ও পেশাদার সেবা</span></div>
+        </div>
+    </section>
+
+    <section class="section" id="request">
+        <div class="section-title">
+            <h2 class="editable" id="form-head">📋 Online Service & Fitting Booking (অনলাইন বুকিং)</h2>
+            <p class="editable" id="form-sub">Fill out the form to request fitting or service via WhatsApp</p>
+        </div>
+        <div class="form-wrap">
+            <form id="serviceForm">
+                <div class="form-section-title editable" id="f-sec-1">Basic Information (গ্রাহকের তথ্য)</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="editable" id="lbl-n">Your Name (আপনার নাম): <span>*</span></label>
+                        <input type="text" id="name" placeholder="Enter Full Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-m">Mobile Number (মোবাইল নম্বর): <span>*</span></label>
+                        <input type="tel" id="mobile" placeholder="e.g. 01722488383" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-am">Alternative Mobile (বিকল্প নম্বর):</label>
+                        <input type="tel" id="altMobile" placeholder="e.g. 09638565753">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-d">District (জেলা): <span>*</span></label>
+                        <select id="district" required>
+                            <option value="">-- Select District --</option>
+                            <option value="Panchagarh (পঞ্চগড়)" selected>Panchagarh (পঞ্চগড়)</option>
+                            <option value="Thakurgaon (ঠাকুরগাঁও)">Thakurgaon (ঠাকুরগাঁও)</option>
+                            <option value="Dinajpur (দিনাজপুর)">Dinajpur (দিনাজপুর)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-t">Thana / Upazila (উপজেলা): <span>*</span></label>
+                        <select id="thana" required>
+                            <option value="">-- Select Thana / Upazila --</option>
+                            <option value="Panchagarh Sadar (পঞ্চগড় সদর)">Panchagarh Sadar (পঞ্চগড় সদর)</option>
+                            <option value="Atwari (আটোয়ারী)">Atwari (আটোয়ারী)</option>
+                            <option value="Boda (বোদা)">Boda (বোদা)</option>
+                            <option value="Debiganj (দেবীগঞ্জ)">Debiganj (দেবীগঞ্জ)</option>
+                            <option value="Tetulia (তেঁতুলিয়া)">Tetulia (তেঁতুলিয়া)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-a">Full Address (ঠিকানা): <span>*</span></label>
+                        <input type="text" id="address" maxlength="50" placeholder="House/Road/Village details" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-p">Select Service Type (সার্ভিস নির্বাচন করুন): <span>*</span></label>
+                        <select id="product" required>
+                            <option value="">-- Select Service --</option>
+                            <option value="AC Fitting & Installation (এসি ফিটিং)">AC Fitting & Installation (এসি ফিটিং)</option>
+                            <option value="Washing Machine Fitting (ওয়াশিং মেশিন ফিটিং)">Washing Machine Fitting (ওয়াশিং মেশিন ফিটিং)</option>
+                            <option value="Kitchen Hood Fitting (কিচেন হুড ফিটিং)">Kitchen Hood Fitting (কিচেন হুড ফিটিং)</option>
+                            <option value="Refrigerator Installation & Service (ফ্রিজ সার্ভিস)">Refrigerator Installation & Service (ফ্রিজ সার্ভিস)</option>
+                            <option value="LED TV Installation (এলইডি টিভি ইনস্টলেশন)">LED TV Installation (এলইডি টিভি ইনস্টলেশন)</option>
+                            <option value="Other Electronics Service (অন্যান্য অ্যাপ্লায়েন্স)">Other Electronics Service (অন্যান্য অ্যাপ্লায়েন্স)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-sc">Service Center: <span>*</span></label>
+                        <select id="serviceCenter" required>
+                            <option value="Harun Service Center - Main Branch">Harun Service Center - Main Branch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section-title editable" id="f-sec-2">Requirement Details (কাজের বিবরণ)</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="editable" id="lbl-b">Brand Name (ব্র্যান্ড): <span>*</span></label>
+                        <select id="brand" required>
+                            <option value="">-- Select Brand --</option>
+                            <option value="WALTON">WALTON (ওয়ালটন)</option>
+                            <option value="Singer">Singer (সিঙ্গার)</option>
+                            <option value="Samsung">Samsung (স্যামসাং)</option>
+                            <option value="LG">LG (এলজি)</option>
+                            <option value="Gree">Gree (গ্রি)</option>
+                            <option value="Haier">Haier (হায়ার)</option>
+                            <option value="Vision">Vision (ভিশন)</option>
+                            <option value="Other">Other (অন্যান্য)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="editable" id="lbl-bc">Barcode / Serial No:</label>
+                        <input type="text" id="barcode" placeholder="Barcode or Serial Number (Optional)">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="editable" id="lbl-pr">Select Problem / Requirement (প্রয়োজনীয় কাজ): <span>*</span></label>
+                        <select id="problem" required>
+                            <option value="">-- Select Requirement --</option>
+                            <option value="New Fitting & Installation (নতুন ইনস্টলেশন)">New Fitting & Installation (নতুন ইনস্টলেশন)</option>
+                            <option value="Uninstallation & Re-fitting (খোলা ও পুনরায় ফিটিং)">Uninstallation & Re-fitting (খোলা ও পুনরায় ফিটিং)</option>
+                            <option value="Servicing & Wash (সার্ভিসিং ও ওয়াশ)">Servicing & Wash (সার্ভিসিং ও ওয়াশ)</option>
+                            <option value="Not Cooling / Heating Issue (ঠান্ডা/গরম সমস্যা)">Not Cooling / Heating Issue (ঠান্ডা/গরম সমস্যা)</option>
+                            <option value="Gas Leakage (গ্যাস লিক)">Gas Leakage (গ্যাস লিক)</option>
+                            <option value="Other Fitting Work (অন্যান্য কাজ)">Other Fitting Work (অন্যান্য কাজ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="editable" id="lbl-cm">Comments / Note (অতিরিক্ত বিবরণ):</label>
+                        <textarea id="comments" placeholder="Write additional details about your required service..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section-title editable" id="f-sec-3">Payment Method (পেমেন্ট পদ্ধতি)</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="editable" id="lbl-pm">Preferred Payment:</label>
+                        <select id="payment">
+                            <option value="Cash on Service (নগদ)">Cash on Service (কাজ শেষে নগদ)</option>
+                            <option value="bKash (বিকাশ)">bKash (বিকাশ)</option>
+                            <option value="Nagad (নগদ)">Nagad (নগদ)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn editable" id="btn-submit">📲 Send Request via WhatsApp</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="section-title">
+            <h2 class="editable" id="faq-t">❓ FAQ (সাধারণ প্রশ্নাবলী)</h2>
+            <p class="editable" id="faq-s">Frequently Asked Questions by Customers</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="editable" id="fq1-q">Q: বাসায় বা অফিসে এসে ফিটিং সার্ভিস দেওয়া হয়?</h3>
+            <p class="editable" id="fq1-a">A: হ্যাঁ! বাসা, অফিস বা যে কোনো প্রতিষ্ঠানে প্রয়োজন অনুযায়ী টেকনিশিয়ান গিয়ে ফিটিং ও ইনস্টলেশন সেবা প্রদান করে।</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="editable" id="fq2-q">Q: কোন কোন অ্যাপ্লায়েন্সের ফিটিং করা হয়?</h3>
+            <p class="editable" id="fq2-a">A: আমরা AC Fitting, Washing Machine, Kitchen Hood, Refrigerator Installation & Service এবং LED TV Installation সহ সব ধরণের ইলেকট্রনিক অ্যাপ্লায়েন্স সার্ভিস প্রদান করি।</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="editable" id="fq3-q">Q: যোগাযোগ করার ফোন নম্বর কোনগুলো?</h3>
+            <p class="editable" id="fq3-a">A: সরাসরি কল করুন 01722488383 অথবা 09638565753 নম্বরে।</p>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <div class="section-title">
+            <h2 class="editable" id="cnt-t">📞 Contact & Location (যোগাযোগ ও লোকেশন)</h2>
+            <p class="editable" id="cnt-s">Get in touch with us directly</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-card"><div class="icon">📱</div><strong class="editable" id="c1-lbl">Mobile (মোবাইল)</strong><a href="tel:01722488383" class="editable" id="c1-val">01722488383</a></div>
+            <div class="contact-card"><div class="icon">☎️</div><strong class="editable" id="c2-lbl">Hotline (হটলাইন)</strong><a href="tel:09638565753" class="editable" id="c2-val">09638565753</a></div>
+            <div class="contact-card"><div class="icon">📍</div><strong class="editable" id="c3-lbl">Address (ঠিকানা)</strong><span class="editable" id="c3-val">In front of Jalashi Markaz Mosque, Panchagarh</span></div>
+        </div>
+
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3586.262846876356!2d88.5562!3d26.3352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDIwJzA2LjcyIE4gODjCsDMzJzIyLjMyIEU!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <footer>
+        <h3 class="editable" id="ft-t">❄️ Harun Refrigeration Services Center</h3>
+        <p class="editable" id="ft-s">Fitting • Installation • Repair • Service</p>
+        <p class="editable" id="ft-c">© 2026 Harun Refrigeration Services Center. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Mobile Bottom Sticky Bar -->
+    <div class="mobile-sticky-bar">
+        <div class="sticky-btn-group">
+            <a href="tel:01722488383" class="sticky-btn sticky-call editable" id="stk-call">📞 Call Now (কল দিন)</a>
+            <a href="https://wa.me/8801722488383" target="_blank" class="sticky-btn sticky-wa editable" id="stk-wa">💬 WhatsApp</a>
+        </div>
+    </div>
+
+    <script>
+    let isEditMode = false;
+    let currentSlide = 0;
+    let autoSlideTimer;
+
+    // Chatbot Functions
+    function toggleChatbot() {
+        const box = document.getElementById('chatbotBox');
+        box.classList.toggle('active');
+    }
+
+    function botReply(userText, botText) {
+        const chatBody = document.getElementById('chatBody');
+        
+        // Append user text
+        const uMsg = document.createElement('div');
+        uMsg.className = 'chat-msg msg-user';
+        uMsg.innerText = userText;
+        chatBody.appendChild(uMsg);
+
+        // Append bot response
+        setTimeout(() => {
+            const bMsg = document.createElement('div');
+            bMsg.className = 'chat-msg msg-bot';
+            bMsg.innerText = botText;
+            chatBody.appendChild(bMsg);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }, 400);
+    }
+
+    // Build Dots dynamically
+    function setupDots() {
+        const slides = document.querySelectorAll('.slide');
+        const dotsWrapper = document.getElementById('dots-wrapper');
+        dotsWrapper.innerHTML = '';
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('span');
+            dot.className = `dot ${idx === currentSlide ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(idx);
+            dotsWrapper.appendChild(dot);
+        });
+    }
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        if (slides.length === 0) return;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        slides[currentSlide].classList.add('active');
+        if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+        showSlide(currentSlide + direction);
+        if(!isEditMode) resetAutoSlide();
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+        if(!isEditMode) resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+        clearInterval(autoSlideTimer);
+        autoSlideTimer = setInterval(() => {
+            if(!isEditMode) showSlide(currentSlide + 1);
+        }, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideTimer);
+        startAutoSlide();
+    }
+
+    // Add New Slide Dynamically
+    function addNewSlide() {
+        const wrapper = document.getElementById('slides-wrapper');
+        const slidesCount = wrapper.querySelectorAll('.slide').length + 1;
+        const imgUrl = prompt("স্লাইড ব্যাকগ্রাউন্ড ইমেজের URL দিন:", "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=1350&q=80");
+        
+        if (!imgUrl) return;
+
+        const newSlide = document.createElement('div');
+        newSlide.className = 'slide hero';
+        newSlide.style.backgroundImage = `url('${imgUrl}')`;
+        newSlide.innerHTML = `
+            <div class="slide-overlay"></div>
+            <div class="hero-inner">
+                <h1 class="editable" id="hero-title-${slidesCount}" contenteditable="${isEditMode}">New Service Title ${slidesCount}</h1>
+                <p class="editable" id="hero-sub-${slidesCount}" contenteditable="${isEditMode}">Enter description of your new offer or service here.</p>
+                <div class="hero-buttons">
+                    <a class="btn btn-white editable" id="hero-b1-${slidesCount}" href="#request" contenteditable="${isEditMode}">📋 Book Service</a>
+                    <a class="btn btn-wa editable" id="hero-b2-${slidesCount}" href="https://wa.me/8801722488383" target="_blank" contenteditable="${isEditMode}">💬 WhatsApp</a>
+                </div>
+            </div>
+        `;
+        wrapper.appendChild(newSlide);
+        setupDots();
+        goToSlide(slidesCount - 1);
+        alert("✅ নতুন স্লাইড যোগ হয়েছে!");
+    }
+
+    // Change Current Slide Image
+    function changeSlideBg() {
+        const slides = document.querySelectorAll('.slide');
+        if(slides.length === 0) return;
+        const newImg = prompt("বর্তমান স্লাইডের নতুন ব্যাকগ্রাউন্ড ইমেজের লিংক (URL) দিন:");
+        if(newImg) {
+            slides[currentSlide].style.backgroundImage = `url('${newImg}')`;
+            alert("✅ ছবি পরিবর্তন হয়েছে! Save বাটনে ক্লিক করে সেভ করে রাখুন।");
+        }
+    }
+
+    // Remove Active Slide
+    function removeCurrentSlide() {
+        const slides = document.querySelectorAll('.slide');
+        if (slides.length <= 1) {
+            alert("⚠️ অন্তত একটি স্লাইড থাকতে হবে!");
+            return;
+        }
+        if (confirm("আপনি কি নিশ্চিত যে বর্তমান স্লাইডটি মুছে ফেলতে চান?")) {
+            slides[currentSlide].remove();
+            setupDots();
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    // Live Service Filter Search
+    function filterServices() {
+        let input = document.getElementById('serviceSearch').value.toLowerCase();
+        let cards = document.querySelectorAll('#serviceGrid .service-card');
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            if (text.includes(input)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+
+    // Order Tracking
+    function checkStatus() {
+        let phone = document.getElementById('trackPhone').value;
+        let res = document.getElementById('trackResult');
+        if(!phone) {
+            res.innerText = "⚠️ দয়া করে আপনার ফোন নম্বর প্রদান করুন।";
+            return;
+        }
+        res.innerText = "🔄 আপনার মোবাইল নম্বরটি চেক করা হচ্ছে... (আপনার বুকিং নিশ্চিত হয়েছে, টেকনিশিয়ান শিঘ্রই যোগযোগ করবেন)";
+    }
+
+    // Load Saved Text on Page Open
+    window.onload = function() {
+        setupDots();
+        const editables = document.querySelectorAll(".editable");
+        editables.forEach(el => {
+            const savedData = localStorage.getItem("hr_site_" + el.id);
+            if (savedData !== null) {
+                el.innerHTML = savedData;
+            }
+        });
+        startAutoSlide();
+    };
+
+    // Toggle Edit Mode
+    function toggleEditMode() {
+        isEditMode = !isEditMode;
+        const toggleBtn = document.getElementById("editToggle");
+        const addSlideBtn = document.getElementById("addSlideBtn");
+        const changeImgBtn = document.getElementById("changeImgBtn");
+        const remSlideBtn = document.getElementById("remSlideBtn");
+        const saveBtn = document.getElementById("saveBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const editables = document.querySelectorAll(".editable");
+
+        if (isEditMode) {
+            toggleBtn.innerText = "ON";
+            toggleBtn.classList.add("active");
+            document.body.classList.add("editable-active");
+            addSlideBtn.style.display = "inline-block";
+            changeImgBtn.style.display = "inline-block";
+            remSlideBtn.style.display = "inline-block";
+            saveBtn.style.display = "inline-block";
+            resetBtn.style.display = "inline-block";
+            clearInterval(autoSlideTimer);
+
+            editables.forEach(el => {
+                el.setAttribute("contenteditable", "true");
+            });
+        } else {
+            toggleBtn.innerText = "OFF";
+            toggleBtn.classList.remove("active");
+            document.body.classList.remove("editable-active");
+            addSlideBtn.style.display = "none";
+            changeImgBtn.style.display = "none";
+            remSlideBtn.style.display = "none";
+            saveBtn.style.display = "none";
+            resetBtn.style.display = "none";
+            startAutoSlide();
+
+            editables.forEach(el => {
+                el.removeAttribute("contenteditable");
+            });
+        }
+    }
+
+    // Save All Changes
+    function saveChanges() {
+        const editables = document.querySelectorAll(".editable");
+        editables.forEach(el => {
+            localStorage.setItem("hr_site_" + el.id, el.innerHTML);
+        });
+        alert("✅ আপনার সব পরিবর্তন সফলভাবে সেভ হয়েছে!");
+        toggleEditMode();
+    }
+
+    // Reset Changes
+    function resetToDefault() {
+        if(confirm("আপনি কি নিশ্চিত যে আগের মূল লেখায় ফিরে যেতে চান?")) {
+            const editables = document.querySelectorAll(".editable");
+            editables.forEach(el => {
+                localStorage.removeItem("hr_site_" + el.id);
+            });
+            location.reload();
+        }
+    }
+
+    // WhatsApp Form Submission
+    document.getElementById("serviceForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = {
+            name: document.getElementById("name").value,
+            mobile: document.getElementById("mobile").value,
+            altMobile: document.getElementById("altMobile").value || "N/A",
+            district: document.getElementById("district").value,
+            thana: document.getElementById("thana").value,
+            address: document.getElementById("address").value,
+            product: document.getElementById("product").value,
+            serviceCenter: document.getElementById("serviceCenter").value,
+            brand: document.getElementById("brand").value,
+            barcode: document.getElementById("barcode").value || "N/A",
+            problem: document.getElementById("problem").value,
+            comments: document.getElementById("comments").value || "N/A",
+            payment: document.getElementById("payment").value
+        };
+
+        const whatsappNumber = "8801722488383"; 
+        const message = `🛠️ *New Fitting & Service Booking - Harun Refrigeration Services Center*%0A%0A` +
+            `👤 *Name:* ${formData.name}%0A` +
+            `📞 *Mobile:* ${formData.mobile}%0A` +
+            `📱 *Alt Mobile:* ${formData.altMobile}%0A` +
+            `📍 *Address:* ${formData.address}, ${formData.thana}, ${formData.district}%0A%0A` +
+            `⚙️ *Service Needed:* ${formData.product}%0A` +
+            `🏷️ *Brand:* ${formData.brand}%0A` +
+            `🔢 *Barcode:* ${formData.barcode}%0A` +
+            `⚠️ *Requirement:* ${formData.problem}%0A` +
+            `💬 *Comments:* ${formData.comments}%0A` +
+            `💳 *Payment Method:* ${formData.payment}`;
+
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+    });
+    </script>
+</body>
+</html>
